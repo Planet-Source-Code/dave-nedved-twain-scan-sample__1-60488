@@ -1,0 +1,265 @@
+EZTWAIN\README.TXT
+
+------ 1.14 2004.08.06
+
+* (Try to) force XferMech to NATIVE in TWAIN_OpenDefaultSource.
+
+------ 1.13
+
+* Corrected documentation of return codes from TWAIN_AcquireToFilename.
+
+------ New in Rev 1.12
+
+* Opening a DS directly with MSG_OPENDS triplet works correctly.
+
+* New functions: TWAIN_Fix32ToFloat, TWAIN_SetXferMech, TWAIN_XferMech.
+
+* 16-bit EZTWAIN.DLL, EZTWAIN.LIB rebuilt up-to-date
+
+* Handle new TWAIN 1.7 result codes (TWRC_) and condition codes (TWCC_).
+
+* Bugfix: ReportLastError suppresses reports of failure due to TWCC_OPERATIONERROR
+
+* Bugfix: Break out of ModalEventLoop if transfer cancelled.
+
+* Bugfix: Track state correctly during mem and file transfers
+
+------ New in Rev 1.11
+
+* New EZTWAIN functions: TWAIN_ToFix32, TWAIN_SetContrast, TWAIN_SetBrightness
+
+* Bugfix: Rounding of negative numbers corrected in TWAIN_ToFix32 (per TWAIN 1.7)
+
+------ New in Rev 1.10
+
+* EZTWAIN Bugfix: Made proxy window invisible!
+
+------ New in Rev 1.09
+
+* Removed other-language (VB, Delphi, FoxPro) sections from package.
+
+* Distribution and support moved from twain.org to dosadi.com
+
+* Revised and updated.
+
+------ New in Rev 1.05:
+
+* MFC/CTwain package has been removed to form a separate package.
+
+* 32-bit version of EZTWAIN, called  EZTW32.DLL
+
+* 32-bit sample program, TWERP32
+
+* Bug fixes to the MessageHook function, to work better with the
+  new 16/32 thunking DSM (Data Source Manager.)
+  
+* Bug fix to WriteNativexxx, they did not work under Win32.
+
+------ New in Rev 1.04:
+
+* FoxPro sample program, courtesy of Kevin Moreland!  See README.TXT
+  in the foxpro subdirectory for more details.
+
+* Added TWAIN_WriteNativeToFile and TWAIN_WriteNativeToFilename
+  These routines make writing images to BMP files much easier,
+  especially for those using higher-level languages like VB and FoxPro
+ 
+* Added TWAIN_FreeNative, to provide a way to delete images without
+  having to call the Windows GlobalFree directly.
+
+* Added TWAIN_SetHideUI and TWAIN_GetHideUI to control display
+  of the source user interface during acquisition.
+
+* Added several TWAIN_SetCurrentXXX functions, to provide some control
+  over scanning, especially when the source user interface is hidden.
+
+* Removed call to TWAIN_NegotiateXferCount in TWAIN_AcquireNative.
+  Some old sources can't handle this, and it isn't critical anyway.
+
+* Enhanced error diagnosis in TWAIN_AcquireNative and in
+  TWAIN_NegotiatePixelTypes.
+
+* Revised TWERP (1.2) to use TWAIN_WriteNativeToFilename.
+
+* Rearranged TWERP menus, added control of pixel type negotiation,
+  and source U/I visibility.
+
+------ New in Rev 1.03:
+* Fixed bugs in TWAIN_WriteDibToFile - I don't know if that code
+  would have worked for any source in the world!  Was I asleep or what?
+
+* TWERP 1.1 now includes a Save As command in the file menu, to test
+  and demonstrate TWAIN_WriteDibToFile.
+
+* New MFC subdirectory, with an EZTWAIN-like C++ class for use with
+  App Wizard & MFC.
+
+------ New in Rev 1.02:
+* Bug fix to TWAIN_ModalEventLoop, courtesy of Bill DeVoe of HP.
+  This was a coding error where a local variable masked a global,
+  causing EZTWAIN to fail when working with some HP datasources.
+  This problem was also reported by David at LENTEC.
+
+* Added to EZTWAIN.H:  A TWAIN_State() inquiry that returns the
+  current TWAIN Protocol State.  Internally, EZTWAIN now tracks the
+  state instead of keeping a bevy of booleans.
+
+--------------- EZTWAIN for Windows - Usage Notes ----------------------
+
+EZTWAIN is a Windows DLL that provides, as its name implies, an easy
+interface to the TWAIN image acquisition protocol.
+
+EZTWAIN functions are provided at several levels of abstraction:  At the
+highest level, a single call will acquire an image and either return a
+handle to it (as a DIB - Device Independent Bitmap) or place it in the
+Windows clipboard.  There is also a single function that does all the work
+of the 'Select Source' File menu item.
+
+At the lowest level, there are functions to send individual triplets to the
+Source Manager or to the currently open Data Source.  The full source code
+of EZTWAIN is provided.
+
+
+EZTWAIN is specifically designed to simplify the use of TWAIN in three cases:
+
+** When the development language is not a mainstream C/C++ compiler - for
+   example, Visual Basic, Application Basic, database programming languages,
+   interpreted languages, LabView, Pascal, LISP, etc.
+
+   With these languages, using the standard TWAIN.DLL entry point directly
+   may be difficult or even impossible.  I hope that EZTWAIN will bridge
+   this gap.
+
+** When the image acquisition requirements are very simple.  Many developers
+   just want to 'grab an image' without spending days or weeks understanding
+   TWAIN and its subtleties.  For these developers, the full TWAIN protocol
+   is expensive overkill - EZTWAIN may meet their needs with a much
+   smaller learning and programming effort.
+
+** Even skilled C programmers with weeks or months to spend on a full
+   TWAIN implementation can still become frustrated trying to get their code
+   to the point where it actually 'does something'.  Calling the high-level
+   EZTWAIN functions should produce results in an hour or two, and then the
+   high-level calls can be refined into calls to functions at lower and
+   lower levels as needed to achieve more exotic effects.
+
+
+------------------------------------
+What is in the EZTWAIN subdirectory?
+------------------------------------
+
+In previous releases of this package, I included information about invoking
+EZTWAIN from several languages: Delphi, FoxPro, VB.
+Because my support of these languages has been sketchy at best
+and is becoming completely obsolete, I have removed them from
+the EZTWAIN package proper, and made the information available
+separately on the website (www.dosadi.com)
+
+So now there is just one subdirectory, EZTWAIN\VC
+Which contains the 16-bit and 32-bit versions of EZTWAIN, respectively,
+along with 16-bit and 32-bit versions of the sample app, TWERP.
+The 32-bit version of the DLL is called --> EZTW32.DLL <--
+
+The 16 bit EZTWAIN.DLL is designed to be opened and built from
+MSVC 1.5.  The 32-bit EZTW32.DLL is saved as an MSVC++ 5.0 project.
+
+--------------------------
+How is EZTWAIN called?
+--------------------------
+
+The EZTWAIN interface was designed to have easy-to-remember names; to require
+very few parameters to functions; and to not require the use of any data
+structures (except the DIB image format.)  For the high-level functions,
+passing 0 for all parameters is a good way to start.  
+
+If you are programming in C, examine EZTWAIN.H and TWERP.C to see
+how the EZTWAIN functions are declared and called.  You may have to configure
+your system to find the EZTWAIN.H file during compilation, the EZTWAIN.LIB
+(or EZTW32.LIB) file during linking, and the EZTWAIN.DLL or EZTW32.DLL,
+during execution.
+
+For Microsoft Visual C++, these issues are taken care of if you open the
+included project files - all the necessary files are found automatically.
+
+***************
+ If you are programming with C++ and the MFC, I strongly suggest you
+take a look at our CTwain package - this is an MFC class that provides TWAIN
+support for MFC AppWizard applications.  It can be downloaded from
+
+						http://www.dosadi.com
+***************
+
+For other development platforms, you will have to study your documentation
+to learn three things:
+
+1. How to declare DLL functions to be called.
+
+If your platform can do this, it will be covered in the documentation, and
+almost any programming language for Windows has a way to do this.
+
+2. How to link to the DLL.
+
+For static languages like C, C++, Pascal, and so on, this is usually done
+during linking and uses the EZTWAIN.LIB or EZTW32.LIB library.  Your
+documentation should have a section on 'Linking to DLLs' or something of
+that sort.  For dynamic languages like Basic, you typically specify the
+name of the DLL in some way, at or near the code that declares the
+EZTWAIN functions.
+
+3. How to access the DLL at run-time.
+
+Typically, for static languages that produce .EXE files, EZTWAIN.DLL or
+EZTW32.DLL will have to be in either the same directory as the .EXE file,
+or somewhere in the PATH.  For dynamic languages, I'm not sure in general
+- Visual Basic seems to do no searching, so you have to tell it for every
+function exactly where to find the DLL that contains that function.
+
+
+--------------------------------------------------
+How should I design TWAIN support into my program?
+--------------------------------------------------
+
+Start out by calling TWAIN_SelectImageSource - this call is simple, and
+should be the easiest to debug.  Alternatively, you could put in code to
+call TWAIN_IsAvailable.  Use the result of this call to disable, gray or
+hide, or to enable your TWAIN facilities.
+
+Then add the calls to TWAIN_AcquireNative or TWAIN_AcquireToClipboard.
+Don't worry about passing proper Window handles at first.  Notice also
+that TWAIN_AcquireNative will disable and re-enable your app window, once
+you decide to pass it in.
+
+Once you have Select Source and Acquire working in your program, then it's
+just a matter of deciding how much more you want.  The simple behavior of
+AcquireNative is attractive but limiting.  AcquireNative treats every
+Data Source as modal - disabling & closing the source after a single image
+is acquired.  To allow e.g. acquisition of multiple images, or
+modeless Data Sources to function properly, you will have to dig into
+the source code for EZTWAIN and make lower level calls, or adapt the
+EZTWAIN code to create your own DLL.
+
+
+---------------------------------------------------
+What to do with problems, questions and suggestions
+---------------------------------------------------
+
+I make a strong effort to post past (and some future) questions & answers
+about EZTWAIN in the FAQ area on my website:
+
+				www.dosadi.com
+
+If your problem, question or suggestion might be of general interest to
+the wide community of TWAIN developers, send e-mail to:
+
+				twain@twain.org.
+
+If you have a specific problem to report, or a question or suggestion for
+the developers of EZTWAIN, send an e-mail to:
+
+				support@dosadi.com
+
+If you use EZTWAIN, I would like to hear about your experience whether good
+or bad - please send e-mail to me.
+
+
+Spike <spike@dosadi.com>, Vashon WA, 07/27/1998

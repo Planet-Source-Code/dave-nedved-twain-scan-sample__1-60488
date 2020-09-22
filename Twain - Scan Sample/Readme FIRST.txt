@@ -1,0 +1,1 @@
+you MUST run Setup.Bat if you do not have the Twain Drivers. this is beacuse PS Code removes All Drivers from the ZIP Files. If you do not feel safe using 'My Drivers' then you can Download it & Re - Compile it yourself from: www.dosadi.com
